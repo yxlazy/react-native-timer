@@ -11,15 +11,15 @@ export const enum Color {
   /**
    * 主文本色
    */
-  text = 'rgba(0, 0, 0, 0.65);',
+  black = 'rgba(0, 0, 0, 0.65);',
   /**
-   * 黑色文本
+   * 白色
    */
-  whiteText = '#fff',
+  white = '#fff',
   /**
-   * 灰色字体
+   * 灰色
    */
-  greyText = '#cdcdcd',
+  grey = '#cdcdcd',
 }
 
 /**
@@ -31,7 +31,7 @@ export enum FontColor {
    */
   default = 'rgba(0, 0, 0, 0.65);',
   /**
-   * 黑色文本
+   * 白色文本
    */
   white = '#fff',
   /**

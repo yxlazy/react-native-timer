@@ -21,8 +21,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     flexDirection: 'column',
     alignItems: 'center',
-    paddingBottom: 30,
-    flex: 1,
+    minHeight: 500,
   },
   emptyIcon: {
     width: 64,

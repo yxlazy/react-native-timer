@@ -11,9 +11,13 @@ type Props = {
 
 const Button = ({text, disabled, onPress}: Props) => {
   return (
-    <View style={styles.container}>
+    <View
+      style={{
+        ...styles.container,
+        backgroundColor: disabled ? Color.grey : Color.primary,
+      }}>
       <Typography
-        type={disabled ? 'grey' : 'white'}
+        type="white"
         style={styles.content}
         onPress={disabled ? undefined : onPress}>
         {text}
@@ -26,7 +30,6 @@ const styles = StyleSheet.create({
   container: {
     width: 100,
     height: 40,
-    backgroundColor: Color.primary as string,
     borderRadius: 6,
   },
   content: {

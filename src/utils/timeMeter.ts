@@ -14,9 +14,10 @@ const timeMeter = () => {
     clearTimeout(timer);
   };
 
-  const init = () => {
+  const init = (fn?: (value: number) => void) => {
     count = 0;
     cancel();
+    fn && fn(count);
   };
 
   const getStartTime = () => {
