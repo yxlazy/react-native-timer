@@ -8,9 +8,15 @@ type props = {
   onPress?: () => void;
 } & TextProps;
 
-const Typography = ({children, type = 'default', ...rest}: props) => {
+const Typography = ({children, style, type = 'default', ...rest}: props) => {
   return (
-    <Text {...rest} style={{...styles.text, color: FontColor[type]}}>
+    <Text
+      {...rest}
+      style={{
+        ...styles.text,
+        color: FontColor[type],
+        ...((style as any) || {}),
+      }}>
       {children}
     </Text>
   );
