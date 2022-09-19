@@ -21,3 +21,25 @@ export const enum Color {
    */
   greyText = '#cdcdcd',
 }
+
+/**
+ * 字体色
+ */
+export enum FontColor {
+  /**
+   * 主文本色
+   */
+  default = 'rgba(0, 0, 0, 0.65);',
+  /**
+   * 黑色文本
+   */
+  white = '#fff',
+  /**
+   * 灰色字体
+   */
+  grey = '#cdcdcd',
+  /**
+   * 链接色
+   */
+  link = '#00ABA7',
+}

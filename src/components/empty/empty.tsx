@@ -1,6 +1,6 @@
 import React from 'react';
-import {View, Image, Text, StyleSheet} from 'react-native';
-import {Color} from '../../constants/styles';
+import {View, Image, StyleSheet} from 'react-native';
+import Typography from '../typography';
 
 const Empty = () => {
   return (
@@ -10,7 +10,7 @@ const Empty = () => {
         resizeMethod="scale"
         style={styles.emptyIcon}
       />
-      <Text style={styles.text}>还没有内容，快去添加吧</Text>
+      <Typography type="grey">还没有内容，快去添加吧</Typography>
     </View>
   );
 };
@@ -27,10 +27,6 @@ const styles = StyleSheet.create({
   emptyIcon: {
     width: 64,
     height: 64,
-  },
-  text: {
-    marginTop: 12,
-    color: Color.greyText,
   },
 });
 
