@@ -22,7 +22,7 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     alignItems: 'center',
     paddingBottom: 30,
-    felx: 1,
+    flex: 1,
   },
   emptyIcon: {
     width: 64,
