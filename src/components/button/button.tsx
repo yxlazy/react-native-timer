@@ -1,18 +1,23 @@
 import React from 'react';
-import {StyleSheet, Text, View} from 'react-native';
+import {StyleSheet, View} from 'react-native';
 import {Color} from '../../constants/styles';
+import Typography from '../typography';
 
 type Props = {
   text?: string;
   onPress?: () => void;
+  disabled?: boolean;
 };
 
-const Button = ({text, onPress}: Props) => {
+const Button = ({text, disabled, onPress}: Props) => {
   return (
     <View style={styles.container}>
-      <Text style={styles.content} onPress={onPress}>
+      <Typography
+        type={disabled ? 'grey' : 'white'}
+        style={styles.content}
+        onPress={disabled ? undefined : onPress}>
         {text}
-      </Text>
+      </Typography>
     </View>
   );
 };
@@ -27,7 +32,6 @@ const styles = StyleSheet.create({
   content: {
     textAlign: 'center',
     lineHeight: 40,
-    color: Color.whiteText,
   },
 });
 
