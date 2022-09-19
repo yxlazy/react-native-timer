@@ -16,4 +16,8 @@ export const enum Color {
    * 黑色文本
    */
   whiteText = '#fff',
+  /**
+   * 灰色字体
+   */
+  greyText = '#cdcdcd',
 }
