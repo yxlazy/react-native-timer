@@ -14,6 +14,8 @@ import Empty from '../../components/empty';
 import Typography from '../../components/typography';
 import {Color, FontColor} from '../../constants/styles';
 import formatHHMMSS from '../../utils/formatHHMMSS';
+import formatYYMMDDHHmmss from '../../utils/formatYYMMDDHHmmss';
+import getDuration from '../../utils/getDuration';
 import {getProjectList, updateProjectList} from '../../utils/projectStorage';
 import timeMeter from '../../utils/timeMeter';
 
@@ -26,6 +28,7 @@ const Home = () => {
   const {height} = useWindowDimensions();
   const [visible, setVisible] = useState(false);
   const [text, setText] = useState('');
+  const [duration, setDuration] = useState(0);
 
   const [dataSource, setDataSource] = useState<
     Array<{
@@ -47,6 +50,7 @@ const Home = () => {
   };
 
   const onPressEnd = () => {
+    setDuration(count);
     timer && timer.init(setCount);
     setHasRest(false);
     setShowPause(false);
@@ -64,6 +68,7 @@ const Home = () => {
     const data = await updateProjectList({
       id: Date.now(),
       content: text,
+      duration,
     });
 
     setDataSource(data);
@@ -90,9 +95,18 @@ const Home = () => {
         <FlatList
           ListEmptyComponent={<Empty />}
           data={dataSource}
-          renderItem={({item}) => (
-            <View style={styles.renderItem}>
-              <Typography>{item.content}</Typography>
+          renderItem={({item, index}) => (
+            <View
+              // eslint-disable-next-line react-native/no-inline-styles
+              style={{
+                ...styles.renderItem,
+                borderBottomWidth: dataSource.length === index + 1 ? 0 : 1,
+              }}>
+              <View>
+                <Typography>{item.content}</Typography>
+                <Typography>{formatYYMMDDHHmmss(item.id)}</Typography>
+              </View>
+              <Typography>{getDuration(item.duration)}</Typography>
             </View>
           )}
           // refreshing
@@ -134,7 +148,7 @@ const Home = () => {
 const styles = StyleSheet.create({
   container: {
     position: 'relative',
-    padding: 12,
+    // padding: 12,
     paddingBottom: 100,
   },
   list: {
@@ -173,8 +187,16 @@ const styles = StyleSheet.create({
     paddingBottom: 20,
   },
   renderItem: {
-    width: '100%',
+    // width: '93%',
     marginBottom: 12,
+    marginLeft: 12,
+    marginRight: 12,
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    padding: 12,
+    borderBottomColor: Color.grey,
   },
   modalContainer: {
     padding: 20,
