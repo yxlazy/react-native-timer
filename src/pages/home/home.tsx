@@ -14,6 +14,7 @@ import Empty from '../../components/empty';
 import Typography from '../../components/typography';
 import {Color, FontColor} from '../../constants/styles';
 import formatHHMMSS from '../../utils/formatHHMMSS';
+import {getProjectList, updateProjectList} from '../../utils/projectStorage';
 import timeMeter from '../../utils/timeMeter';
 
 let timer: any = null;
@@ -57,16 +58,15 @@ const Home = () => {
     setVisible(true);
   };
 
-  const onPressModalClose = () => {
+  const onPressModalClose = async () => {
     setVisible(false);
-    setDataSource(data => {
-      data.push({
-        id: Date.now(),
-        content: text,
-      });
 
-      return [...data];
+    const data = await updateProjectList({
+      id: Date.now(),
+      content: text,
     });
+
+    setDataSource(data);
   };
 
   const onChangeText = (value: string) => {
@@ -77,6 +77,10 @@ const Home = () => {
     timer = timeMeter();
 
     return () => timer && timer.cancel();
+  }, []);
+
+  useEffect(() => {
+    getProjectList().then(data => setDataSource(data));
   }, []);
 
   return (

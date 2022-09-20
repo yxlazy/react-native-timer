@@ -38,17 +38,19 @@ type CreateOptions = {
  * @param options
  * @returns
  */
-function createData(key: string, data: any, options: CreateOptions = {}) {
-  return storage.save({
+async function createData(key: string, data: any, options: CreateOptions = {}) {
+  await storage.save({
     key,
     data,
     ...options,
   });
+
+  return data;
 }
 
 // 读取数据
-function findData(key: string, options: Omit<LoadParams, 'key'> = {}) {
-  return storage
+async function findData(key: string, options: Omit<LoadParams, 'key'> = {}) {
+  let data = await storage
     .load({
       key,
       ...options,
@@ -60,12 +62,15 @@ function findData(key: string, options: Omit<LoadParams, 'key'> = {}) {
       switch (err.name) {
         case 'NotFoundError':
           // TODO;
+          data = null;
           break;
         case 'ExpiredError':
           // TODO
           break;
       }
     });
+
+  return data;
 }
 
 // 更新数据
@@ -84,7 +89,9 @@ async function updateData(
     deepClone(needUpdateData, originData);
   }
 
-  return createData(key, data, {id});
+  await createData(key, data, {id});
+
+  return data;
 }
 
 // 删除数据
