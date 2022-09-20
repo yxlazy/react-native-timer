@@ -111,6 +111,7 @@ const Home = () => {
           )}
           // refreshing
           style={styles.list}
+          showsVerticalScrollIndicator={false}
         />
         {/* 计时器 */}
         {hasRest && (
