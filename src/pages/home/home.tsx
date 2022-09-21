@@ -102,6 +102,7 @@ const Home = () => {
     setVisible(true);
     setUpdate(true);
     setUpdateItem(item);
+    setText(item.content);
   };
 
   // Modal
