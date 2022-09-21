@@ -149,24 +149,30 @@ const Home = () => {
           ListEmptyComponent={<Empty />}
           data={dataSource}
           renderItem={({item, index}) => (
-            <Pressable
+            <View
               // eslint-disable-next-line react-native/no-inline-styles
               style={{
                 ...styles.renderItem,
                 borderBottomWidth: dataSource.length === index + 1 ? 0 : 1,
-              }}
-              onPress={() => onPressUpdate(item)}>
-              <View>
-                <Typography>{item.content}</Typography>
-                <Typography>{formatYYMMDDHHmmss(item.id)}</Typography>
-              </View>
-              <Typography>{getDuration(item.duration)}</Typography>
-              <Image
-                source={{uri: require('../../asserts/img/delete-icon.png')}}
-                style={styles.deleteIcon}
-                onProgress={() => onPressDelete(item.id)}
-              />
-            </Pressable>
+              }}>
+              <Pressable
+                onPress={() => onPressUpdate(item)}
+                style={styles.contentWrapper}>
+                <View>
+                  <Typography>{item.content}</Typography>
+                  <Typography>{formatYYMMDDHHmmss(item.id)}</Typography>
+                </View>
+                <Typography>{getDuration(item.duration)}</Typography>
+              </Pressable>
+              <Pressable
+                onPress={() => onPressDelete(item.id)}
+                style={styles.deleteIconWrapper}>
+                <Image
+                  source={require('../../asserts/img/delete-icon.png')}
+                  style={styles.deleteIcon}
+                />
+              </Pressable>
+            </View>
           )}
           // refreshing
           style={styles.list}
@@ -257,20 +263,27 @@ const styles = StyleSheet.create({
     marginBottom: 12,
     marginLeft: 12,
     marginRight: 12,
-    display: 'flex',
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
     padding: 12,
     borderBottomColor: Color.grey,
     position: 'relative',
   },
-  deleteIcon: {
+  contentWrapper: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  deleteIconWrapper: {
+    width: 16,
+    height: 16,
     position: 'absolute',
-    bottom: 6,
-    right: 6,
-    width: 24,
-    height: 24,
+    bottom: 0,
+    right: 12,
+  },
+  deleteIcon: {
+    width: 10,
+    height: 16,
+    zIndex: 10,
   },
   modalContainer: {
     padding: 20,
