@@ -23,6 +23,8 @@ import {
   deleteProjectList,
   getProjectList,
   updateProjectList,
+  type ProjectData,
+  type ProjectList,
 } from '../../utils/projectStorage';
 import timeMeter from '../../utils/timeMeter';
 
@@ -36,14 +38,17 @@ const Home = () => {
   const [visible, setVisible] = useState(false);
   const [text, setText] = useState('');
   const [duration, setDuration] = useState(0);
+  const [isUpdate, setUpdate] = useState(false);
+  const [updateItem, setUpdateItem] = useState<ProjectData | null>(null);
 
-  const [dataSource, setDataSource] = useState<
-    Array<{
-      id: number;
-      content: string;
-      [k: string]: any;
-    }>
-  >([]);
+  const [dataSource, setDataSource] = useState<ProjectList>([]);
+
+  const resetWhenCloseModal = () => {
+    setVisible(false);
+    setUpdate(false);
+    setUpdateItem(null);
+    setText('');
+  };
 
   const onPressStart = () => {
     timer.exec(setCount);
@@ -92,21 +97,34 @@ const Home = () => {
     );
   };
 
+  // 更新
+  const onPressUpdate = (item: ProjectData) => {
+    setVisible(true);
+    setUpdate(true);
+    setUpdateItem(item);
+  };
+
   // Modal
   const onPressModalOpen = () => {
     setVisible(true);
   };
 
-  const onPressModalClose = async () => {
-    setVisible(false);
-
+  const onPressModalClose = async (id?: number) => {
     const data = await updateProjectList({
-      id: Date.now(),
+      id: id || Date.now(),
       content: text,
       duration,
     });
 
     setDataSource(data);
+    // 保存数据成功，重置数据
+    resetWhenCloseModal();
+  };
+
+  const onRequestClose = () => {
+    if (isUpdate) {
+      resetWhenCloseModal();
+    }
   };
 
   const onChangeText = (value: string) => {
@@ -131,12 +149,13 @@ const Home = () => {
           ListEmptyComponent={<Empty />}
           data={dataSource}
           renderItem={({item, index}) => (
-            <View
+            <Pressable
               // eslint-disable-next-line react-native/no-inline-styles
               style={{
                 ...styles.renderItem,
                 borderBottomWidth: dataSource.length === index + 1 ? 0 : 1,
-              }}>
+              }}
+              onPress={() => onPressUpdate(item)}>
               <View>
                 <Typography>{item.content}</Typography>
                 <Typography>{formatYYMMDDHHmmss(item.id)}</Typography>
@@ -147,7 +166,7 @@ const Home = () => {
                 style={styles.deleteIcon}
                 onProgress={() => onPressDelete(item.id)}
               />
-            </View>
+            </Pressable>
           )}
           // refreshing
           style={styles.list}
@@ -169,17 +188,23 @@ const Home = () => {
           <Button text="结束" onPress={onPressEnd} disabled={!hasRest} />
         </View>
       </View>
-      <Modal visible={visible} animationType="slide">
+      <Modal
+        visible={visible}
+        animationType="slide"
+        onRequestClose={onRequestClose}>
         <View style={styles.modalContainer}>
           <Text style={styles.title}>输入名称</Text>
           <TextInput
             style={styles.input}
             onChangeText={onChangeText}
             autoFocus
+            value={text}
           />
         </View>
-        <Pressable onPress={onPressModalClose} style={styles.modalBtnWrapper}>
-          <Text style={styles.modalBtn}>添加</Text>
+        <Pressable
+          onPress={() => onPressModalClose(updateItem?.id)}
+          style={styles.modalBtnWrapper}>
+          <Text style={styles.modalBtn}>{isUpdate ? '更新' : '添加'}</Text>
         </Pressable>
       </Modal>
     </Fragment>

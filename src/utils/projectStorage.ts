@@ -1,14 +1,14 @@
 import {STORAGE_KEYS} from '../constants/storage';
 import storage from './storage';
 
-type ProjectData = {
+export type ProjectData = {
   id: number;
   content: string;
   duration: number;
   [k: string]: any;
 };
 
-type ProjectList = Array<ProjectData>;
+export type ProjectList = Array<ProjectData>;
 
 /**
  * 保存到storage
