@@ -56,7 +56,7 @@ export const updateProjectList = async (
 export const deleteProjectList = async (id: number): Promise<ProjectList> => {
   const originData = await getProjectList();
 
-  const data = originData.filter(item => item.id === id);
+  const data = originData.filter(item => item.id !== id);
 
   return await saveProjectList(data);
 };
