@@ -1,6 +1,7 @@
 import React, {Fragment, useEffect, useState} from 'react';
 import {
   FlatList,
+  Image,
   Modal,
   Pressable,
   StyleSheet,
@@ -11,12 +12,17 @@ import {
 } from 'react-native';
 import Button from '../../components/button';
 import Empty from '../../components/empty';
+import Toast from '../../components/Toast';
 import Typography from '../../components/typography';
 import {Color, FontColor} from '../../constants/styles';
 import formatHHMMSS from '../../utils/formatHHMMSS';
 import formatYYMMDDHHmmss from '../../utils/formatYYMMDDHHmmss';
 import getDuration from '../../utils/getDuration';
-import {getProjectList, updateProjectList} from '../../utils/projectStorage';
+import {
+  deleteProjectList,
+  getProjectList,
+  updateProjectList,
+} from '../../utils/projectStorage';
 import timeMeter from '../../utils/timeMeter';
 
 let timer: any = null;
@@ -55,6 +61,13 @@ const Home = () => {
     setHasRest(false);
     setShowPause(false);
     onPressModalOpen();
+  };
+
+  const onPressDelete = (id: number) => {
+    deleteProjectList(id).then(data => {
+      setDataSource(data);
+      Toast.show('删除成功!');
+    });
   };
 
   // Modal
@@ -107,6 +120,11 @@ const Home = () => {
                 <Typography>{formatYYMMDDHHmmss(item.id)}</Typography>
               </View>
               <Typography>{getDuration(item.duration)}</Typography>
+              <Image
+                source={{uri: require('../../asserts/img/delete-icon.png')}}
+                style={styles.deleteIcon}
+                onProgress={() => onPressDelete(item.id)}
+              />
             </View>
           )}
           // refreshing
@@ -198,6 +216,14 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     padding: 12,
     borderBottomColor: Color.grey,
+    position: 'relative',
+  },
+  deleteIcon: {
+    position: 'absolute',
+    bottom: 6,
+    right: 6,
+    width: 24,
+    height: 24,
   },
   modalContainer: {
     padding: 20,
