@@ -1,5 +1,6 @@
 import React, {Fragment, useEffect, useState} from 'react';
 import {
+  Alert,
   FlatList,
   Image,
   Modal,
@@ -64,10 +65,31 @@ const Home = () => {
   };
 
   const onPressDelete = (id: number) => {
-    deleteProjectList(id).then(data => {
-      setDataSource(data);
-      Toast.show('删除成功!');
-    });
+    const deleteFn = () =>
+      deleteProjectList(id).then(data => {
+        setDataSource(data);
+        Toast.show('删除成功!');
+      });
+
+    Alert.alert(
+      '删除',
+      '确认删除吗？',
+      [
+        {
+          text: '取消',
+          onPress: () => console.log('Cancel Pressed'),
+          style: 'cancel',
+        },
+        {text: '确认', onPress: deleteFn},
+      ],
+      {
+        cancelable: true,
+        onDismiss: () =>
+          console.log(
+            'This alert was dismissed by tapping outside of the alert dialog.',
+          ),
+      },
+    );
   };
 
   // Modal
