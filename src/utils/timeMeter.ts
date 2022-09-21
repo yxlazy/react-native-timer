@@ -1,17 +1,21 @@
+import BackgroundTimer from 'react-native-background-timer';
+
 const timeMeter = () => {
   let count = 0,
-    timer: number;
+    intervalId: number;
 
   const exec = (fn?: (value: number) => void) => {
-    timer = setTimeout(() => {
+    intervalId = BackgroundTimer.setInterval(() => {
+      // this will be executed every 200 ms
+      // even when app is the the background
       count += 1;
       fn && fn(count);
-      exec(fn);
+      // console.log('tic', count);
     }, 1000);
   };
 
   const cancel = () => {
-    clearTimeout(timer);
+    BackgroundTimer.clearTimeout(intervalId);
   };
 
   const init = (fn?: (value: number) => void) => {
