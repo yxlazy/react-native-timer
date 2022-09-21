@@ -149,13 +149,8 @@ const Home = () => {
         <FlatList
           ListEmptyComponent={<Empty />}
           data={dataSource}
-          renderItem={({item, index}) => (
-            <View
-              // eslint-disable-next-line react-native/no-inline-styles
-              style={{
-                ...styles.renderItem,
-                borderBottomWidth: dataSource.length === index + 1 ? 0 : 1,
-              }}>
+          renderItem={({item}) => (
+            <View style={styles.renderItem}>
               <Pressable
                 onPress={() => onPressUpdate(item)}
                 style={styles.contentWrapper}>
@@ -163,7 +158,9 @@ const Home = () => {
                   <Typography>{item.content}</Typography>
                   <Typography>{formatYYMMDDHHmmss(item.id)}</Typography>
                 </View>
-                <Typography>{getDuration(item.duration)}</Typography>
+                <Typography style={styles.duration}>
+                  {getDuration(item.duration)}
+                </Typography>
               </Pressable>
               <Pressable
                 onPress={() => onPressDelete(item.id)}
@@ -267,6 +264,7 @@ const styles = StyleSheet.create({
     padding: 12,
     borderBottomColor: Color.grey,
     position: 'relative',
+    borderBottomWidth: 1,
   },
   contentWrapper: {
     display: 'flex',
@@ -274,11 +272,14 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
   },
+  duration: {
+    alignSelf: 'flex-start',
+  },
   deleteIconWrapper: {
     width: 16,
     height: 16,
     position: 'absolute',
-    bottom: 0,
+    bottom: 12,
     right: 12,
   },
   deleteIcon: {
