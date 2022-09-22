@@ -211,7 +211,11 @@ const Home = () => {
         </View>
         <Pressable
           onPress={() => onPressModalClose(updateItem?.id)}
-          style={styles.modalBtnWrapper}>
+          style={{
+            ...styles.modalBtnWrapper,
+            ...(text.length === 0 ? styles.modalBtnDisabled : {}),
+          }}
+          disabled={text.length === 0}>
           <Text style={styles.modalBtn}>{isUpdate ? '更新' : '添加'}</Text>
         </Pressable>
       </Modal>
@@ -333,6 +337,9 @@ const styles = StyleSheet.create({
     lineHeight: 50,
     textAlign: 'center',
     fontSize: 20,
+  },
+  modalBtnDisabled: {
+    backgroundColor: Color.grey,
   },
 });
 
