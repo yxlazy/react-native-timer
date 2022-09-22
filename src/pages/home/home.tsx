@@ -157,7 +157,7 @@ const Home = () => {
                 <Pressable
                   onPress={() => onPressUpdate(item)}
                   style={styles.contentWrapper}>
-                  <View>
+                  <View style={styles.content}>
                     <Typography>{item.content}</Typography>
                     <Typography>{formatYYMMDDHHmmss(item.id)}</Typography>
                   </View>
@@ -281,8 +281,14 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
   },
+  content: {
+    marginRight: 6,
+    width: '65%',
+  },
   duration: {
     alignSelf: 'flex-start',
+    textAlign: 'right',
+    flex: 1,
   },
   deleteIconWrapper: {
     width: 16,
