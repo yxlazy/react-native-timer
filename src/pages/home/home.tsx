@@ -13,6 +13,7 @@ import {
 } from 'react-native';
 import Button from '../../components/button';
 import Empty from '../../components/empty';
+import Header from '../../components/header';
 import Toast from '../../components/Toast';
 import Typography from '../../components/typography';
 import {Color, FontColor} from '../../constants/styles';
@@ -145,37 +146,40 @@ const Home = () => {
   return (
     <Fragment>
       <View style={{...styles.container, minHeight: height}}>
+        <Header text="学习计划" style={styles.header} />
         {/* 内容 */}
-        <FlatList
-          ListEmptyComponent={<Empty />}
-          data={dataSource}
-          renderItem={({item}) => (
-            <View style={styles.renderItem}>
-              <Pressable
-                onPress={() => onPressUpdate(item)}
-                style={styles.contentWrapper}>
-                <View>
-                  <Typography>{item.content}</Typography>
-                  <Typography>{formatYYMMDDHHmmss(item.id)}</Typography>
-                </View>
-                <Typography style={styles.duration}>
-                  {getDuration(item.duration)}
-                </Typography>
-              </Pressable>
-              <Pressable
-                onPress={() => onPressDelete(item.id)}
-                style={styles.deleteIconWrapper}>
-                <Image
-                  source={require('../../asserts/img/delete-icon.png')}
-                  style={styles.deleteIcon}
-                />
-              </Pressable>
-            </View>
-          )}
-          // refreshing
-          style={styles.list}
-          showsVerticalScrollIndicator={false}
-        />
+        <View style={styles.listWrapper}>
+          <FlatList
+            ListEmptyComponent={<Empty />}
+            data={dataSource}
+            renderItem={({item}) => (
+              <View style={styles.renderItem}>
+                <Pressable
+                  onPress={() => onPressUpdate(item)}
+                  style={styles.contentWrapper}>
+                  <View>
+                    <Typography>{item.content}</Typography>
+                    <Typography>{formatYYMMDDHHmmss(item.id)}</Typography>
+                  </View>
+                  <Typography style={styles.duration}>
+                    {getDuration(item.duration)}
+                  </Typography>
+                </Pressable>
+                <Pressable
+                  onPress={() => onPressDelete(item.id)}
+                  style={styles.deleteIconWrapper}>
+                  <Image
+                    source={require('../../asserts/img/delete-icon.png')}
+                    style={styles.deleteIcon}
+                  />
+                </Pressable>
+              </View>
+            )}
+            // refreshing
+            style={styles.list}
+            showsVerticalScrollIndicator={false}
+          />
+        </View>
         {/* 计时器 */}
         {hasRest && (
           <View style={styles.timerContentWrapper}>
@@ -183,7 +187,7 @@ const Home = () => {
           </View>
         )}
         {/* 按钮 */}
-        <View style={{...styles.btnsWrapper, top: height - 100}}>
+        <View style={styles.btnsWrapper}>
           {showPause ? (
             <Button text="暂停" onPress={onPressPause} />
           ) : (
@@ -220,9 +224,18 @@ const styles = StyleSheet.create({
     position: 'relative',
     // padding: 12,
     paddingBottom: 100,
+    height: '100%',
+  },
+  header: {
+    paddingLeft: 12,
+    paddingRight: 12,
+    height: '10%',
+  },
+  listWrapper: {
+    height: '85%',
   },
   list: {
-    minHeight: 600,
+    height: '100%',
   },
   timerContentWrapper: {
     display: 'flex',
@@ -244,11 +257,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     flexDirection: 'row',
-    position: 'absolute',
-    bottom: 0,
-    right: 0,
-    left: 0,
-    height: 100,
+    minHeight: '15%',
     borderTopWidth: 1,
     borderTopColor: 'rgba(0, 0, 0, .23)',
     paddingLeft: 20,

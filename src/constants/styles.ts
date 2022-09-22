@@ -20,6 +20,8 @@ export const enum Color {
    * 灰色
    */
   grey = '#cdcdcd',
+  lighter = '#f6f8fa',
+  darker = '#24292f',
 }
 
 /**

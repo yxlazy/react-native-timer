@@ -16,13 +16,14 @@ import {
   activateKeepAwake,
   deactivateKeepAwake,
 } from '@sayem314/react-native-keep-awake';
-import {Colors} from 'react-native/Libraries/NewAppScreen';
+import {Color} from './src/constants/styles';
 
 const App = () => {
   const isDarkMode = useColorScheme() === 'dark';
 
   const backgroundStyle = {
-    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
+    backgroundColor: isDarkMode ? Color.darker : Color.lighter,
+    flex: 1,
   };
 
   useEffect(() => {
